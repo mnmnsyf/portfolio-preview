@@ -184,3 +184,20 @@ test('website uses Fiona without Chinese profile text and describes ongoing deep
   assert.ok(entry.includes('deep learning'))
   assert.ok(entry.includes('PyTorch'))
 })
+
+test('interactive layer: live demos, hero field and on-demand command palette', () => {
+  const projectsHtml = pages.get('projects')
+  for (const id of ['jello-simulation', 'ik-skinning']) {
+    const start = projectsHtml.indexOf(`<article id="${id}"`)
+    const article = projectsHtml.slice(start, projectsHtml.indexOf('</article>', start))
+    assert.match(article, /<canvas[^>]*role="img"/, `${id} needs its live demo`)
+    assert.ok(article.includes('not the original C++ code'), `${id} demo must be labelled`)
+  }
+  const entry = pages.get('top')
+  assert.ok(entry.includes('class="voronoi-field'))
+  assert.ok(entry.includes('19,977'))
+  for (const pageHtml of pages.values()) {
+    assert.ok(pageHtml.includes('aria-label="Open command palette"'))
+    assert.ok(!pageHtml.includes('role="dialog"'), 'palette renders only when opened')
+  }
+})

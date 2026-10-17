@@ -1,7 +1,7 @@
 <template>
   <a href="#main-content" class="skip-link" @click.prevent="focusMain">Skip to content</a>
-  <div class="site-layout" @click="onRouteLinkClick">
-    <SiteNav :active="route.section" />
+  <div class="site-layout" :data-route="route.section" @click="onRouteLinkClick">
+    <SiteNav :active="route.section" @open-palette="paletteOpen = true" />
     <main id="main-content" class="page" tabindex="-1">
       <div class="section-viewport">
         <Transition
@@ -73,6 +73,7 @@
       </div>
       <SiteFooter />
     </main>
+    <CommandPalette v-if="paletteOpen" @close="paletteOpen = false" />
   </div>
 </template>
 
@@ -92,11 +93,28 @@ import EducationList from '@/components/EducationList.vue'
 import AwardList from '@/components/AwardList.vue'
 import SkillList from '@/components/SkillList.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
+import CommandPalette from '@/components/CommandPalette.vue'
 
 const props = defineProps<{ initialHash?: string }>()
 const route = ref(
   resolveRoute(props.initialHash ?? (typeof window === 'undefined' ? '#/' : window.location.hash)),
 )
+
+const paletteOpen = ref(false)
+
+/** Ctrl/Cmd+K anywhere, or "/" outside text fields, opens the command palette. */
+function onGlobalKey(event: KeyboardEvent) {
+  const typing =
+    event.target instanceof HTMLElement &&
+    (event.target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName))
+  if ((event.key === 'k' || event.key === 'K') && (event.metaKey || event.ctrlKey)) {
+    event.preventDefault()
+    paletteOpen.value = !paletteOpen.value
+  } else if (event.key === '/' && !typing && !paletteOpen.value) {
+    event.preventDefault()
+    paletteOpen.value = true
+  }
+}
 
 function focusMain() {
   document.getElementById('main-content')?.focus()
@@ -160,8 +178,12 @@ function syncRoute() {
 }
 onMounted(() => {
   window.addEventListener('hashchange', syncRoute)
+  window.addEventListener('keydown', onGlobalKey)
   updateTitle()
   void nextTick(positionRoute)
 })
-onBeforeUnmount(() => window.removeEventListener('hashchange', syncRoute))
+onBeforeUnmount(() => {
+  window.removeEventListener('hashchange', syncRoute)
+  window.removeEventListener('keydown', onGlobalKey)
+})
 </script>

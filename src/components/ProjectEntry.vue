@@ -2,8 +2,11 @@
   <article :id="project.id" class="project">
     <div class="project-overview">
       <div class="project-copy">
-        <p v-if="project.period || project.role" class="project-meta">
-          {{ [project.period, project.role].filter(Boolean).join(' / ') }}
+        <p v-if="project.period || project.role || demo" class="project-meta">
+          <span v-if="project.period || project.role">{{
+            [project.period, project.role].filter(Boolean).join(' / ')
+          }}</span>
+          <span v-if="demo" class="live-badge">Live demo below</span>
         </p>
         <h3 class="project-title">{{ project.title }}</h3>
         <p class="project-summary">{{ project.summary }}</p>
@@ -37,6 +40,7 @@
         <MediaFigure v-else :media="project.media[0]!" />
       </div>
     </div>
+    <component :is="demo" v-if="demo" />
     <details
       v-if="project.body?.length || project.modules?.length || (project.media?.length ?? 0) > 1"
       class="project-details"
@@ -86,5 +90,13 @@ import { mandateOrderScreenshots } from '@/data/mandateOrderScreenshots'
 import MediaFigure from './MediaFigure.vue'
 import MediaGrid from './MediaGrid.vue'
 import VariantToggle from './VariantToggle.vue'
-defineProps<{ project: Project }>()
+import { computed, defineAsyncComponent } from 'vue'
+
+/** Projects with an in-browser re-creation of their core technique. Loaded on demand. */
+const demos: Record<string, ReturnType<typeof defineAsyncComponent>> = {
+  'jello-simulation': defineAsyncComponent(() => import('./demos/SpringLattice.vue')),
+  'ik-skinning': defineAsyncComponent(() => import('./demos/IkChain.vue')),
+}
+const props = defineProps<{ project: Project }>()
+const demo = computed(() => demos[props.project.id])
 </script>
