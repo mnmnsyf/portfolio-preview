@@ -31,7 +31,7 @@ export const experience: Experience[] = [
     location: 'Chengdu, China',
     bullets: [
       'Built production C++ engine and simulation systems for Mandate Order, released on Steam Early Access.',
-      'Developed gameplay systems on the project’s multithreaded ECS architecture (GPU-instanced rendering at 10,000+ entities), including Unreal Mass processors for projectile initialization, movement, collision and hits.',
+      'Owned the skill system on the project’s multithreaded ECS architecture (GPU-instanced rendering at 10,000+ entities): data-driven ability configuration, event triggers decoupled from execution, commander skill preview and release, and Unreal Mass projectile processors.',
       'Built dynamic road-graph routing with heap-based multi-source Dijkstra for threat-aware and supply routes, supporting 1,000+ concurrent agents; batched road-state synchronization across GameWorld and AIWorld.',
       'Built the resource supply manager: headquarters deliveries, transport efficiency and resource updates driven by configuration tables.',
       'Built the Enhanced Input tooling (prioritized mapping contexts, reference-counted action monitoring, action filtering), a CommonUI layer-stack manager and the game-settings registry and screens.',

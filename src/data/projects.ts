@@ -261,10 +261,10 @@ const gameplayEngineering: ProjectGroup = {
         'Unreal Mass (ECS)',
       ],
       summary:
-        'Over two years of production C++ on a commercial Unreal Engine 5 strategy game, from internship to full-time, through its Steam Early Access launch. Building on the project’s multithreaded ECS architecture, I owned the algorithm-heavy systems (threat-aware routing, spatial grouping, command relay, Voronoi land ownership, the battle frontline) and then took on architecture work: input tooling, the UI layer stack and the game-settings system.',
+        'Over two years of production C++ on a commercial Unreal Engine 5 strategy game, from internship to full-time, through its Steam Early Access launch. Building on the project’s multithreaded ECS architecture, I owned the algorithm-heavy systems (threat-aware routing, spatial grouping, command relay, Voronoi land ownership, the battle frontline) and the skill system, then took on architecture work: input tooling, the UI layer stack and the game-settings system.',
       metrics: [
         '1,000+ concurrent agents on threat-aware road-graph routing',
-        '8 production systems owned, from graph algorithms to input and UI architecture',
+        '8 production systems owned, from graph algorithms and the skill system to input and UI architecture',
         'Released on Steam Early Access, 12 Aug 2026',
       ],
       body: [
@@ -369,9 +369,11 @@ const gameplayEngineering: ProjectGroup = {
           ],
         },
         {
-          title: 'Projectiles in Unreal Mass (ECS)',
+          title: 'Skill system on Unreal Mass (ECS)',
           body: [
-            'Working within the project’s ECS architecture, I defined the Mass trait for bullets and the processors for their initialization and per-frame updates, which iterate bullet fragments chunk by chunk to handle movement, collision checks and hits.',
+            'I owned the skill system: how abilities are configured, triggered and executed for commanders and AI units. Abilities are data-driven, so they are added and tuned in configuration rather than in code.',
+            'Event triggers are decoupled from execution, so trigger conditions and the effects they cause are configured independently. Commander skills have a dedicated manager that handles skill preview and release.',
+            'Projectiles are Unreal Mass entities. I defined the bullet trait and the processors for their initialization and per-frame updates, which iterate bullet fragments chunk by chunk to handle movement, collision checks and hits.',
           ],
         },
       ],

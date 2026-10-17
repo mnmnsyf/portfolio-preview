@@ -25,7 +25,7 @@ export const site = {
      I spent over two years, intern to full-time, shipping production C++ for
      <a href="https://www.digisky.com/product/mo" target="_blank" rel="noopener">Mandate Order</a>,
      now on Steam Early Access. I started on the algorithm-heavy systems (spatial queries, graph routing
-     for 1,000+ agents, Voronoi land ownership) and moved into architecture work: input tooling,
+     for 1,000+ agents, Voronoi land ownership), owned the skill system, and moved into architecture work: input tooling,
      the UI layer stack and the game-settings system.`,
     `<strong>Seeking 2027 full-time software engineering roles in C++ software systems, backend and infrastructure,
      performance engineering, and graphics &amp; simulation.</strong> M.S. in Computer Science at
