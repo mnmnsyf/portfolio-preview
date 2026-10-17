@@ -75,8 +75,9 @@
           <h3>Mandate Order</h3>
           <p>
             A Warring States war city-builder with real-time battles of thousands of soldiers. I
-            built production C++ systems for it in Unreal Engine 5 — instanced rendering, a
-            multithreaded ECS, threat-aware routing, Voronoi land plots and a living frontline.
+            built production C++ systems for it in Unreal Engine 5: threat-aware routing, spatial
+            grouping, command relay, Voronoi land plots, the battle frontline, and the input and UI
+            layers.
           </p>
           <a class="button" href="#/projects/project-mo"
             >Inside the systems <span aria-hidden="true">→</span></a

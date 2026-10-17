@@ -18,15 +18,15 @@ export const site = {
    * no external or user input reaches this field.
    */
   bio: [
-    `I'm a software engineer who builds performance-critical C++ systems, from real-time
-     simulation that keeps 10,000+ entities on screen to developer-facing SDKs and tools.`,
+    `I'm a software engineer who builds performance-critical C++ systems, from graph and
+     spatial algorithms in a shipped real-time strategy game to developer-facing SDKs and tools.`,
     `At
      <a href="https://www.digisky.com/" target="_blank" rel="noopener">Chengdu Digital Sky</a>
      I spent over two years, intern to full-time, shipping production C++ for
      <a href="https://www.digisky.com/product/mo" target="_blank" rel="noopener">Mandate Order</a>,
      now on Steam Early Access. I started on the algorithm-heavy systems (spatial queries, graph routing
-     for 1,000+ agents, Voronoi land ownership) and moved into architecture: a multithreaded ECS
-     and the game's input and UI systems.`,
+     for 1,000+ agents, Voronoi land ownership) and moved into architecture work: input tooling,
+     the UI layer stack and the game-settings system.`,
     `<strong>Seeking 2027 full-time software engineering roles in C++ software systems, backend and infrastructure,
      performance engineering, and graphics &amp; simulation.</strong> M.S. in Computer Science at
      <a href="https://www.usc.edu/" target="_blank" rel="noopener">USC</a> (graphics track), graduating May 2027;

@@ -9,8 +9,8 @@ export const skills: SkillGroup[] = [
     label: 'Systems',
     items: [
       'Data Structures & Algorithms',
-      'Multithreading',
-      'ECS Architecture',
+      'Graph & Spatial Algorithms',
+      'Unreal Mass (ECS)',
       'Performance Optimization',
     ],
   },

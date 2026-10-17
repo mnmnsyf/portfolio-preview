@@ -253,17 +253,22 @@ const gameplayEngineering: ProjectGroup = {
       title: 'Mandate Order',
       role: 'Software Engineer (C++)',
       period: 'Sep 2023 – Dec 2025',
-      tech: ['C++', 'Unreal Engine 5', 'Algorithms', 'Multithreading', 'Software Architecture'],
+      tech: [
+        'C++',
+        'Unreal Engine 5',
+        'Graph Algorithms',
+        'Spatial Data Structures',
+        'Unreal Mass (ECS)',
+      ],
       summary:
-        'Over two years of production C++ on a commercial Unreal Engine 5 strategy game, from internship to full-time, through its Steam Early Access launch. I owned the algorithm-heavy systems (spatial queries, graph routing, Voronoi land ownership) and then moved into architecture: the input and UI systems.',
+        'Over two years of production C++ on a commercial Unreal Engine 5 strategy game, from internship to full-time, through its Steam Early Access launch. Building on the project’s multithreaded ECS architecture, I owned the algorithm-heavy systems (threat-aware routing, spatial grouping, command relay, Voronoi land ownership, the battle frontline) and then took on architecture work: input tooling, the UI layer stack and the game-settings system.',
       metrics: [
-        '10,000+ entities rendered with GPU instancing',
-        '1,000+ concurrent agents on dynamic road-graph routing',
-        'Connected-component computation cut to ~25% of original time at 120 unit clusters',
+        '1,000+ concurrent agents on threat-aware road-graph routing',
+        '8 production systems owned, from graph algorithms to input and UI architecture',
         'Released on Steam Early Access, 12 Aug 2026',
       ],
       body: [
-        'Mandate Order is a Warring States war city-builder by Chengdu Digital Sky, with real-time battles of thousands of soldiers. Its simulation has to stay real-time at that scale, which is where most of my work sat: spatial and graph algorithms first, then the architecture that player input and UI run on. The systems below are ones I designed and owned.',
+        'Mandate Order is a Warring States war city-builder by Chengdu Digital Sky, with real-time battles of thousands of soldiers. The engine side, a multithreaded ECS with GPU-instanced rendering at 10,000+ entities, was the project’s architecture; my systems were built on it and had to stay within its frame budget. The systems below are the ones I designed and owned.',
       ],
       links: [
         { label: 'Steam', href: 'https://store.steampowered.com/app/1733690' },
@@ -277,40 +282,64 @@ const gameplayEngineering: ProjectGroup = {
       ],
       modules: [
         {
-          title: 'Optimising maximum connected component computation',
+          title: 'Threat-aware routing on a dynamic road graph',
           body: [
-            'Convex hulls over unit clusters drive squad averaging, mouse selection, pathfinding and dynamic faction alignment, and they have to be rebuilt in real time. Computing the maximum connected component is the prerequisite step, and it was the bottleneck.',
-            'Replacing the naive search with a kd-tree brought computation down to roughly 25% of its original cost at 120 unit clusters, and the margin widens as unit count grows.',
+            'Units and supply move along a road network that changes during play: roads are built, damaged, reclaimed and change ownership. Routes have to reflect both distance and danger, for many agents at once.',
+            'I implemented a heap-based multi-source Dijkstra: the heap is seeded from several start nodes with initial distances, then weighted edges are relaxed. Edge weights combine distance, road type, faction-owned targets and nearby enemies in battle, which is what makes the routes threat-aware. The system serves 1,000+ concurrent agents.',
+            'Road state lives in the game world while AI runs on its own thread. Road creation, runtime state, visibility, connectivity and ownership changes are batched into commands and sent through a queue to the AI world, rather than shared directly across threads.',
+          ],
+        },
+        {
+          title: 'Spatial grouping: KD-tree and union-find connected components',
+          body: [
+            'Convex hulls over unit clusters drive squad averaging, mouse selection, pathfinding and faction alignment, and they are rebuilt in real time. The prerequisite step is grouping soldiers connected within a distance threshold and picking the largest group.',
+            'I wrote a reusable, templated k-dimensional KD-tree with radius queries and combined it with union-find to compute connected components; the same library includes a configurable DBSCAN clustering utility. Tree construction, radius queries and component computation are instrumented with Unreal stat counters, and the caller can switch between depth-first search and the KD-tree paths so each can be profiled against the other.',
           ],
           media: [
             {
               kind: 'video',
               src: '/connected-component-optimization.mp4',
               poster: '/connected-component-poster.png',
-              alt: 'Connected component optimization',
+              alt: 'Connected components computed over unit clusters',
             },
           ],
         },
         {
-          title: 'Flag command dispatch',
+          title: 'Command relay through a beacon graph',
           body: [
-            'Players issue orders to distant units through a chain of signal towers, and signals propagate along the path of least time cost. Because the target can move while a signal is still in flight, every unit that has already received the order needs its shortest path recomputed against the new destination — a multi-source shortest path problem.',
-            'I implemented it with Floyd–Warshall, which fits because the tower graph is small, dense and static enough to precompute.',
+            'Players issue orders to distant units through chains of signal beacons. Each commander’s beacon zone forms a graph that changes as beacons are added or lost.',
+            'I used Floyd–Warshall to compute all-pairs hop distances and next hops for each zone and cached both tables. A rebuild is O(V³) and runs only when the zone changes; in exchange, every relay lookup during play is a table read. The trade-off fits because zones are small and change far less often than orders are sent.',
           ],
           media: [
             {
               kind: 'video',
               src: '/flag-command.mp4',
               poster: '/flag-command-poster.png',
-              alt: 'Flag command dispatch',
+              alt: 'Command relay through signal beacons',
+            },
+          ],
+        },
+        {
+          title: 'Voronoi-based plot management',
+          body: [
+            'Buildings own land, and land ownership is a Voronoi partition. Plot cells authored in a web tool are imported as SVG polygons and attached to the buildings that own them, scaled and rotated to match each building in the 3D world.',
+            'The hard part was adjacency. This game deliberately leaves gaps between plots, which breaks the usual shared-edge search. I approximated it instead: polygon vertices are mapped onto a bounded grid (16–64 cells per axis, derived from the cell count), and cells that share grid positions become neighbours. Grid resolution trades precision against speed, which made adjacency cheap enough to recompute during play.',
+            'In construction mode, the plot manager expands outward from a central building through adjacent plots, skipping invalid and occupied ones, and takes the next candidate from a heap ordered by occupancy and squared distance.',
+          ],
+          media: [
+            {
+              kind: 'video',
+              src: '/voronoi-tile-management.mp4',
+              poster: '/voronoi-tile-management-poster.png',
+              alt: 'Voronoi-based plot management',
             },
           ],
         },
         {
           title: 'Dynamic battle frontline',
           body: [
-            'The frontline is the shifting boundary between engaged armies. I partitioned the terrain into a grid, determined which force occupies each cell, then extracted and ordered the borders between adjacent cells held by different factions into a continuous series of segments.',
-            'Sampling segment endpoints through a sine function gives the line its wave-like movement instead of a hard polygonal edge.',
+            'The frontline is the shifting boundary between engaged armies. I partitioned the terrain into a grid, determined which force occupies each cell, then collected and ordered the edges between adjacent cells held by different factions into continuous border segments.',
+            'Sampling segment endpoints through sine offsets gives the line a wave-like edge instead of a hard polygonal one.',
           ],
           media: [
             {
@@ -326,18 +355,23 @@ const gameplayEngineering: ProjectGroup = {
           ],
         },
         {
-          title: 'Voronoi-based plot management',
+          title: 'Input tooling and command handling',
           body: [
-            'Buildings own land, and land ownership is a Voronoi partition. Voronoi assets authored in a web tool are imported as SVG, each encoding the polygonal boundary of one plot, then attached programmatically to the building that owns it — scaled and rotated to match that building’s orientation in the 3D world. In construction mode, a central building expands outward through its neighbours layer by layer in a chosen order (clockwise, counterclockwise, or by distance) until it reaches the map edge, skipping roads and existing structures.',
-            'The interesting problem was adjacency. Standard Voronoi implementations assume plot edges are fully connected, but this game deliberately leaves gaps between plots, which breaks the usual edge search and makes it expensive. I wrote a grid-based approximation instead: subdivide the diagram into cells of configurable size and treat plot vertices sharing a cell as adjacent. Tuning the cell size trades precision against speed, which is what made adjacency cheap enough to recompute during gameplay.',
+            'The game switches between operation modes and temporary interaction layers, and actions must be rebindable. I built the Enhanced Input tooling the game code uses: helpers for action binding, adding and removing mapping contexts with configured priorities, reference-counted monitoring of action events, and black/white-list filtering of actions.',
+            'I also wrote the instruction manager interface for player selection and command gestures, such as box selection and right-click orders, driven by configured game states, and an in-game debug widget that shows which input actions fire, for diagnosing binding problems.',
           ],
-          media: [
-            {
-              kind: 'video',
-              src: '/voronoi-tile-management.mp4',
-              poster: '/voronoi-tile-management-poster.png',
-              alt: 'Voronoi-based plot management',
-            },
+        },
+        {
+          title: 'UI layer stack and game settings',
+          body: [
+            'I built the CommonUI manager that gives each player a root layout and pushes activatable widgets onto gameplay-tagged layer stacks, so screens open and close in a predictable order.',
+            'On top of it I built the game-settings system: a settings registry and manager, reusable controls (dropdown entries, a brightness screen, buttons with shared text styling) and a read-only hint for shortcuts that cannot be rebound.',
+          ],
+        },
+        {
+          title: 'Projectiles in Unreal Mass (ECS)',
+          body: [
+            'Working within the project’s ECS architecture, I defined the Mass trait for bullets and the processors for their initialization and per-frame updates, which iterate bullet fragments chunk by chunk to handle movement, collision checks and hits.',
           ],
         },
       ],

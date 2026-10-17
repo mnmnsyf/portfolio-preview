@@ -31,11 +31,10 @@ export const experience: Experience[] = [
     location: 'Chengdu, China',
     bullets: [
       'Built production C++ engine and simulation systems for Mandate Order, released on Steam Early Access.',
-      'Scaled rendering to 10,000+ entities with GPU instancing to reduce draw-call overhead.',
-      'Designed a multithreaded ECS, separating event triggers from execution across 100+ configurable abilities.',
+      'Developed gameplay systems on the project’s multithreaded ECS architecture (GPU-instanced rendering at 10,000+ entities), including Unreal Mass processors for projectile initialization, movement, collision and hits.',
       'Built dynamic road-graph routing with heap-based multi-source Dijkstra for threat-aware and supply routes, supporting 1,000+ concurrent agents; batched road-state synchronization across GameWorld and AIWorld.',
-      'Built a supply transportation system on the navigation mesh, automating strategic resource routing across large-scale battles.',
-      'Designed a multi-mode input and UI system on Enhanced Input, supporting layered, context-aware interaction.',
+      'Built the resource supply manager: headquarters deliveries, transport efficiency and resource updates driven by configuration tables.',
+      'Built the Enhanced Input tooling (prioritized mapping contexts, reference-counted action monitoring, action filtering), a CommonUI layer-stack manager and the game-settings registry and screens.',
       'Partitioned terrain with Voronoi diagrams to derive plot adjacency, backing the in-game construction system.',
     ],
     media: [
@@ -57,7 +56,7 @@ export const experience: Experience[] = [
     period: 'Sep 2023 – Jul 2024 · Internship',
     location: 'Chengdu, China',
     bullets: [
-      'Reduced connectivity calculation overhead by 85% at 2,000+ units using a KD-tree and reusable C++ templates.',
+      'Built a reusable templated C++ spatial library (k-dimensional KD-tree, union-find connected components, DBSCAN) for unit grouping, instrumented with Unreal stat counters.',
       'Implemented Floyd–Warshall shortest paths for command relay across 50+ connected signal-tower nodes.',
       'Built reusable behavior-tree components, reducing implementation time by approximately 50%.',
       'Delivered a playable tavern-management and farming prototype within one month with cross-functional teammates.',
