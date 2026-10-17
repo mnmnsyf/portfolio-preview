@@ -1,0 +1,102 @@
+:root {
+  --accent: #755240;
+  --accent-hover: #4f372b;
+  --text: #302e2a;
+  --text-muted: #66635b;
+  --text-faint: #77736a;
+  --rule: #ded9ce;
+  --bg: #f7f5ef;
+  --bg-inset: #eeebe2;
+  --bg-banner: #f7f5ef;
+  --font: 'Inter', 'Segoe UI', sans-serif;
+  --font-display: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  --measure: 100%;
+  --measure-wide: 1240px;
+  --nav-h: 24px;
+  --gap-section: 6rem;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 2rem;
+}
+body {
+  min-height: 100vh;
+  color: var(--text);
+  background: var(--bg);
+  font-family: var(--font);
+  font-size: 18px;
+  line-height: 1.8;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+h1,
+h2,
+h3,
+h4 {
+  color: var(--text);
+  font-weight: 500;
+  line-height: 1.25;
+}
+p {
+  margin-bottom: 1rem;
+}
+p:last-child {
+  margin-bottom: 0;
+}
+a {
+  color: var(--accent);
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+.prose a {
+  text-decoration: underline;
+}
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 5px;
+}
+::selection {
+  background: #dcd0bc;
+  color: #302e2a;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
