@@ -29,10 +29,10 @@ const stats = [
     source: 'Multi-source Dijkstra',
   },
   {
-    value: 6,
-    suffix: '',
-    label: 'programming-contest medals and prizes',
-    source: 'ICPC · Baidu Star · collegiate contests',
+    value: 85,
+    suffix: '%',
+    label: 'less connectivity computation at a 1,000-unit workload',
+    source: 'Spatial hashing · uniform grid',
   },
   {
     value: 2,

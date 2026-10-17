@@ -108,7 +108,7 @@ const engineRendering: ProjectGroup = {
       tech: ['C++'],
       summary:
         'A CPU software rasterizer written in C++, with a programmable shader pipeline and textured OBJ rendering.',
-      metrics: ['Fragment-shades meshes of 10,000+ vertices'],
+      metrics: ['5M+ fragments/sec', 'Renders meshes of 10,000+ vertices'],
       mediaColumns: 1,
       body: [
         'Implemented rasterization, Z-buffering and a programmable shader pipeline from first principles, with no external graphics API.',
@@ -263,6 +263,7 @@ const gameplayEngineering: ProjectGroup = {
       summary:
         'Production C++ on a shipped Unreal Engine 5 strategy game, intern to full-time over two-plus years. I owned eight systems across graph algorithms, spatial indexing, data-driven gameplay, and input and UI frameworks.',
       metrics: [
+        '85% less connectivity computation at the typical 1,000-unit workload',
         '1,000+ concurrent agents served by the pathfinding system',
         '8 production systems owned, from algorithms to frameworks',
         'Shipped on Steam Early Access, 12 Aug 2026',
@@ -296,11 +297,11 @@ const gameplayEngineering: ProjectGroup = {
           ],
         },
         {
-          title: 'Reusable spatial indexing library',
-          tags: ['KD-tree', 'Union-find', 'DBSCAN', 'C++ templates', 'Profiling'],
+          title: 'Spatial indexing and connectivity',
+          tags: ['Spatial hashing', 'Uniform grid', 'KD-tree', 'Union-find', 'Profiling'],
           body: [
-            'A templated k-dimensional KD-tree with radius queries, union-find connected components and DBSCAN clustering, used to group units for selection, formations and pathfinding.',
-            'Instrumented with stat counters, with a runtime switch between DFS and KD-tree paths for side-by-side profiling.',
+            'Unit grouping needs connected components of soldiers within a distance threshold, rebuilt in real time for selection, formations and pathfinding.',
+            'For the typical 1,000-unit workload I replaced the naive search with spatial hashing on a uniform grid, cutting connectivity computation by 85%. A templated k-dimensional KD-tree (with union-find and DBSCAN) is kept for 5,000\u20136,000-unit scenes, where it pays off. Both paths are instrumented with stat counters.',
           ],
           media: [
             {

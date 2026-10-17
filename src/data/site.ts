@@ -30,7 +30,7 @@ export const site = {
      performance engineering.</strong> M.S. in Computer Science at
      <a href="https://www.usc.edu/" target="_blank" rel="noopener">USC</a>, May 2027 (current course:
      CSCI 566 Deep Learning). ICPC medalist; research assistant at UCLA's
-     <a href="https://www.math.ucla.edu/aivc/" target="_blank" rel="noopener">AIVC Lab</a> and second author of
+     <a href="https://www.math.ucla.edu/aivc/" target="_blank" rel="noopener">AIVC Lab</a> and co-first author of
      <a href="#/research/articulatearena">ArticulateArena</a>. Recently: an
      <a href="#/projects/angle-graphics-sdk">ANGLE-based .NET graphics SDK</a> and
      <a href="#/projects/path-tracing-denoising">deep learning for path-tracing denoising</a> in PyTorch.`,
@@ -52,7 +52,7 @@ export const navLinks: NavLink[] = [
 /** Direct routes to the strongest public evidence. */
 export const featuredWork = [
   {
-    label: 'Research · Second author',
+    label: 'Research · Co-first author',
     title: 'ArticulateArena',
     href: '#/research/articulatearena',
     image: '/articulatearena-category.png',

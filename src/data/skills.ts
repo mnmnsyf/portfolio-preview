@@ -36,6 +36,17 @@ export const skills: SkillGroup[] = [
   },
   {
     label: 'Engines & Tools',
-    items: ['Unreal Engine', 'Unity', 'Git', 'Visual Studio', '.NET', 'Blender'],
+    items: [
+      'Unreal Engine',
+      'Unity',
+      'Git',
+      'Perforce',
+      'CMake',
+      'Visual Studio',
+      'Unreal Insights',
+      'RenderDoc',
+      '.NET',
+      'Blender',
+    ],
   },
 ]
