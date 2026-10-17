@@ -32,13 +32,27 @@ const pages = new Map(
   ),
 )
 const html = [...pages.values()].join('')
+const allProjects = projectGroups.flatMap((group) => group.projects)
+// Projects render one at a time, so each has its own route.
+const projectPages = new Map(
+  await Promise.all(
+    allProjects.map(async (project) => [project.id, await renderPage(`#/projects/${project.id}`)]),
+  ),
+)
+const projectHtml = [...projectPages.values()].join('')
+const routeCache = new Map()
+async function renderRoute(hash) {
+  if (!routeCache.has(hash)) routeCache.set(hash, await renderPage(hash))
+  return routeCache.get(hash)
+}
 
 test('every project has an accurately labelled usable resource', () => {
   for (const project of [...projectGroups.flatMap((group) => group.projects), articulateArena]) {
     assert.ok(project.links?.length, `${project.title} needs a resource link`)
-    const start = html.indexOf(`<article id="${project.id}"`)
+    const source = html + projectHtml
+    const start = source.indexOf(`<article id="${project.id}"`)
     assert.ok(start >= 0, `${project.title} must render`)
-    const article = html.slice(start, html.indexOf('</article>', start))
+    const article = source.slice(start, source.indexOf('</article>', start))
     for (const link of project.links) {
       assert.ok(link.label.trim())
       assert.match(link.href, /^(https:\/\/|\/(?!\/))/)
@@ -60,8 +74,8 @@ test('each experience includes an organization or project resource', () => {
   }
 })
 
-test('all section and project links resolve to independently rendered destinations', () => {
-  for (const [section, pageHtml] of pages) {
+test('all section and project links resolve to independently rendered destinations', async () => {
+  for (const [section, pageHtml] of [...pages, ...projectPages]) {
     const ids = [...pageHtml.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1])
     assert.equal(new Set(ids).size, ids.length, `duplicate anchor in ${section}`)
     for (const [, target] of pageHtml.matchAll(/href="#([^"]+)"/g)) {
@@ -70,8 +84,8 @@ test('all section and project links resolve to independently rendered destinatio
         continue
       }
       const route = resolveRoute(`#${target}`)
-      const destination = pages.get(route.section)
-      assert.ok(destination, `missing section for ${target}`)
+      assert.ok(pages.has(route.section), `missing section for ${target}`)
+      const destination = route.target ? await renderRoute(`#${target}`) : pages.get(route.section)
       if (route.target)
         assert.ok(destination.includes(`id="${route.target}"`), `missing target ${target}`)
       assert.ok(target === '/' || route.section !== 'top', `unrecognized route ${target}`)
@@ -186,8 +200,8 @@ test('website uses Fiona without Chinese profile text and describes ongoing deep
 })
 
 test('interactive layer: live demos, hero field and on-demand command palette', () => {
-  const projectsHtml = pages.get('projects')
   for (const id of ['jello-simulation', 'ik-skinning']) {
+    const projectsHtml = projectPages.get(id)
     const start = projectsHtml.indexOf(`<article id="${id}"`)
     const article = projectsHtml.slice(start, projectsHtml.indexOf('</article>', start))
     assert.match(article, /<canvas[^>]*role="img"/, `${id} needs its live demo`)
@@ -212,8 +226,8 @@ test('project notes toggle sits beside resources and highlights come from author
     lead: 'First sentence is here.',
     rest: 'Second one follows.',
   })
-  const projectsHtml = pages.get('projects')
-  for (const project of projectGroups.flatMap((group) => group.projects)) {
+  for (const project of allProjects) {
+    const projectsHtml = projectPages.get(project.id)
     const start = projectsHtml.indexOf(`<article id="${project.id}"`)
     const article = projectsHtml.slice(start, projectsHtml.indexOf('</article>', start))
     const actions = article.slice(
@@ -225,9 +239,28 @@ test('project notes toggle sits beside resources and highlights come from author
       assert.ok(actions.includes(`aria-controls="${project.id}-notes"`), `${project.title} toggle`)
       assert.ok(actions.includes('aria-expanded="true"'), `${project.title} notes start expanded`)
       const notes = article.slice(article.indexOf(`id="${project.id}-notes"`))
-      assert.ok(!/^[^>]*inert/.test(notes), `${project.title} notes are not inert`)
+      assert.ok(!/^[^>]*\binert\b/.test(notes), `${project.title} notes are not inert`)
       for (const highlight of projectHighlights(project))
         assert.ok(article.includes(`id="${highlight.target}"`), `${highlight.target} target`)
     }
   }
+})
+
+test('projects show one entry at a time with Mandate Order first and clear switching', async () => {
+  const countArticles = (page) => [...page.matchAll(/<article id="/g)].length
+  assert.equal(countArticles(pages.get('projects')), 1)
+  assert.ok(pages.get('projects').includes('<article id="project-mo"'))
+  for (const [id, page] of projectPages) {
+    assert.equal(countArticles(page), 1, `${id} renders alone`)
+    assert.ok(page.includes(`<article id="${id}"`))
+    const currentLinks = [...page.matchAll(/<a\b[^>]*\brail-link\b[^>]*aria-current="true"/g)]
+    assert.equal(currentLinks.length, 1, `${id} highlights one index entry`)
+    assert.ok(currentLinks[0][0].includes(`href="#/projects/${id}"`))
+    assert.ok(page.includes('aria-label="Next project:'))
+    assert.ok(page.includes('aria-label="Previous project:'))
+  }
+  const group = projectGroups[1]
+  assert.ok(
+    (await renderRoute(`#/projects/${group.id}`)).includes(`<article id="${group.projects[0].id}"`),
+  )
 })

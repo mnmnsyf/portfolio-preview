@@ -18,7 +18,7 @@
               title="Selected projects"
               heading-tag="h1"
             >
-              <ProjectGroups />
+              <ProjectGroups :target="route.target" />
             </SectionBlock>
             <SectionBlock
               v-else-if="route.section === 'research'"
@@ -120,7 +120,11 @@ function focusMain() {
   document.getElementById('main-content')?.focus()
 }
 function scrollRoute() {
-  const target = route.value.target ? document.getElementById(route.value.target) : null
+  // Projects show one at a time: open each at the top so the index stays in view.
+  const target =
+    route.value.target && route.value.section !== 'projects'
+      ? document.getElementById(route.value.target)
+      : null
   if (target) {
     // Layout offsets exclude the entrance transform, so deep links do not jump
     // again when the transition finishes.
