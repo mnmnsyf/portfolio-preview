@@ -149,7 +149,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, nextTick, ref } from 'vue'
+import { computed, defineAsyncComponent, nextTick, ref, type Component } from 'vue'
 import { assetUrl } from '@/assetUrl'
 import type { Project } from '@/data/types'
 import { mandateOrderScreenshots } from '@/data/mandateOrderScreenshots'
@@ -160,9 +160,13 @@ import MediaGrid from './MediaGrid.vue'
 import VariantToggle from './VariantToggle.vue'
 
 /** Projects with an in-browser re-creation of their core technique. Loaded on demand. */
-const demos: Record<string, ReturnType<typeof defineAsyncComponent>> = {
-  'jello-simulation': defineAsyncComponent(() => import('./demos/SpringLattice.vue')),
-  'ik-skinning': defineAsyncComponent(() => import('./demos/IkChain.vue')),
+// A chunk that fails to load (e.g. a stale page after a redeploy) drops the demo
+// rather than the whole section.
+const lazyDemo = (loader: () => Promise<{ default: Component }>) =>
+  defineAsyncComponent({ loader, onError: (_error, _retry, fail) => fail() })
+const demos: Record<string, Component> = {
+  'jello-simulation': lazyDemo(() => import('./demos/SpringLattice.vue')),
+  'ik-skinning': lazyDemo(() => import('./demos/IkChain.vue')),
 }
 
 const props = defineProps<{ project: Project; index?: number }>()
