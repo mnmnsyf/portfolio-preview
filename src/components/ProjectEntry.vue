@@ -178,7 +178,8 @@ const highlights = computed(() => projectHighlights(props.project))
 const figures = computed(() =>
   (props.project.metrics ?? []).map((text) => ({ text, figure: metricFigure(text) })),
 )
-const open = ref(false)
+// Notes start expanded so the full technical write-up is visible; the toggle collapses them.
+const open = ref(true)
 
 const pad = (n: number) => String(n).padStart(2, '0')
 

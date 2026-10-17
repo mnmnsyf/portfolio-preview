@@ -223,6 +223,9 @@ test('project notes toggle sits beside resources and highlights come from author
     if (project.body?.length || project.modules?.length) {
       assert.ok(actions.includes('project-links'), `${project.title} resources`)
       assert.ok(actions.includes(`aria-controls="${project.id}-notes"`), `${project.title} toggle`)
+      assert.ok(actions.includes('aria-expanded="true"'), `${project.title} notes start expanded`)
+      const notes = article.slice(article.indexOf(`id="${project.id}-notes"`))
+      assert.ok(!/^[^>]*inert/.test(notes), `${project.title} notes are not inert`)
       for (const highlight of projectHighlights(project))
         assert.ok(article.includes(`id="${highlight.target}"`), `${highlight.target} target`)
     }
