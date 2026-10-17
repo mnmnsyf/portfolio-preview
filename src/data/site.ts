@@ -39,8 +39,12 @@ export const site = {
   lastUpdated: 'October 2026',
 }
 
+/** The general software engineering resume; site-relative, so render it through assetUrl. */
+export const resumeHref = '/Fiona_She_Resume.pdf'
+
 export const navLinks: NavLink[] = [
   { label: 'Email', href: 'mailto:sheyfff@gmail.com', icon: 'mail' },
+  { label: 'Résumé (PDF)', href: resumeHref, icon: 'cv' },
   { label: 'GitHub', href: 'https://github.com/mnmnsyf', icon: 'github' },
   {
     label: 'LinkedIn',

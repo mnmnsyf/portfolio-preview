@@ -26,6 +26,9 @@
           <a class="button button-primary" href="#/projects"
             >Selected work <span aria-hidden="true">→</span></a
           >
+          <a class="button" :href="assetUrl(resumeHref)" target="_blank" rel="noopener"
+            >Résumé (PDF) <span aria-hidden="true">↗</span></a
+          >
           <a class="button" href="mailto:sheyfff@gmail.com">Get in touch</a>
         </div>
       </div>
@@ -101,7 +104,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { site } from '@/data/site'
+import { assetUrl } from '@/assetUrl'
+import { resumeHref, site } from '@/data/site'
 import { news } from '@/data/news'
 import { mandateOrderScreenshots } from '@/data/mandateOrderScreenshots'
 import ScreenshotCarousel from './ScreenshotCarousel.vue'

@@ -264,3 +264,11 @@ test('projects show one entry at a time with Mandate Order first and clear switc
     (await renderRoute(`#/projects/${group.id}`)).includes(`<article id="${group.projects[0].id}"`),
   )
 })
+
+test('resume PDF is linked from every page through the build base', async () => {
+  const { resumeHref } = await server.ssrLoadModule('/src/data/site.ts')
+  const expected = `${server.config.base}${resumeHref.slice(1)}`
+  for (const [section, pageHtml] of pages)
+    assert.ok(pageHtml.includes(`href="${expected}"`), `${section} links the resume`)
+  assert.ok(pages.get('top').includes('Résumé (PDF)'))
+})

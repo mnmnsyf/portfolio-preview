@@ -397,7 +397,7 @@ const gameplayEngineering: ProjectGroup = {
             'ECS (Unreal Mass)',
           ],
           body: [
-            'Configuration-driven abilities for commanders and AI units, with triggers decoupled from execution so abilities are added and tuned in configuration rather than code.',
+            'Configuration-driven system for 100+ abilities across commanders and AI units, with triggers decoupled from execution so abilities are added and tuned in configuration rather than code.',
             'Projectiles run as Mass ECS entities through processors I wrote for initialization, movement, collision and hits.',
           ],
         },
