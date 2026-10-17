@@ -12,7 +12,7 @@ export const news: NewsItem[] = [
   },
   {
     date: 'Aug 2026',
-    text: 'Mandate Order — the game I worked on as a UE5 gameplay engineer — launched in Steam Early Access on August 12.',
+    text: 'Mandate Order — the game I worked on as a C++ software engineer — launched in Steam Early Access on August 12.',
     links: [{ label: 'Steam', href: 'https://store.steampowered.com/app/1733690' }],
   },
   {
@@ -30,7 +30,7 @@ export const news: NewsItem[] = [
   },
   {
     date: 'Dec 2025',
-    text: 'Completed eighteen months at Chengdu Digital Sky as a UE5 gameplay engineer, contributing to Mandate Order, a commercial strategy game.',
+    text: 'Completed eighteen months at Chengdu Digital Sky as a C++ software engineer, contributing to Mandate Order, a commercial strategy game.',
     links: [{ label: 'Steam', href: 'https://store.steampowered.com/app/1733690' }],
   },
 ]

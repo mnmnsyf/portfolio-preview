@@ -11,6 +11,10 @@ const engineRendering: ProjectGroup = {
       tech: ['C++', 'C#', '.NET', 'EGL', 'OpenGL ES', 'ANGLE'],
       summary:
         'A .NET graphics SDK built on ANGLE, connecting a native C++ EGL bridge to managed OpenGL ES APIs and developer tools.',
+      metrics: [
+        'GLES 3.0 bindings generated from Khronos XML, with idempotency tests',
+        'Deterministic rendering comparisons across native C++ and managed C# demos',
+      ],
       body: [
         'Built a native EGL bridge and dynamically loaded GLES entry points for offscreen rendering with pixel readback and window-surface presentation. The managed SDK exposes context-bound GPU resources with explicit disposal and thread-access checks.',
         'Generated GLES 3.0 bindings from Khronos XML, preserving existing signatures and testing generator idempotency. Native C++ and managed C# demos produce images for deterministic rendering comparisons.',
@@ -247,17 +251,19 @@ const gameplayEngineering: ProjectGroup = {
     {
       id: 'project-mo',
       title: 'Mandate Order',
-      role: 'Gameplay Programmer',
-      period: '2023 – 2025',
-      tech: ['Unreal Engine 5', 'C++', 'Computational Geometry', 'Strategy'],
+      role: 'Software Engineer (C++)',
+      period: 'Sep 2023 – Dec 2025',
+      tech: ['C++', 'Unreal Engine 5', 'Algorithms', 'Multithreading', 'Software Architecture'],
       summary:
-        'An ancient Chinese war city-builder (Warring States period) that shipped on Steam Early Access — I owned the geometry and graph algorithms behind unit command, terrain ownership and construction.',
+        'Over two years of production C++ on a commercial Unreal Engine 5 strategy game, from internship to full-time, through its Steam Early Access launch. I owned the algorithm-heavy systems (spatial queries, graph routing, Voronoi land ownership) and then moved into architecture: the input and UI systems.',
       metrics: [
+        '10,000+ entities rendered with GPU instancing',
+        '1,000+ concurrent agents on dynamic road-graph routing',
         'Connected-component computation cut to ~25% of original time at 120 unit clusters',
         'Released on Steam Early Access, 12 Aug 2026',
       ],
       body: [
-        'Mandate Order is a Warring States war city-builder developed by Chengdu Digital Sky: build a stronghold, manage industries and logistics, raise armies, and command real-time tactical battles with thousands of soldiers. I worked on it as a gameplay programmer; the systems below are the ones I designed and owned.',
+        'Mandate Order is a Warring States war city-builder by Chengdu Digital Sky, with real-time battles of thousands of soldiers. Its simulation has to stay real-time at that scale, which is where most of my work sat: spatial and graph algorithms first, then the architecture that player input and UI run on. The systems below are ones I designed and owned.',
       ],
       links: [
         { label: 'Steam', href: 'https://store.steampowered.com/app/1733690' },

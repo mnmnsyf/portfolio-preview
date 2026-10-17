@@ -13,13 +13,14 @@
           >
         </h1>
         <p class="hero-role">
-          C++ software engineer building <em>systems</em>, <em>graphics</em> &amp;
+          Software engineer building high-performance <em>C++ systems</em>, <em>tools</em> &amp;
           <em>simulation</em>.
         </p>
         <ul class="hero-facts">
           <li><span>Now</span>Research · UCLA AIVC Lab</li>
           <li><span>Study</span>M.S. CS · USC, May 2027</li>
-          <li><span>Open to</span>2027 full-time roles</li>
+          <li><span>Algorithms</span>ICPC silver medalist</li>
+          <li><span>Open to</span>2027 full-time SDE roles</li>
         </ul>
         <div class="hero-actions">
           <a class="button button-primary" href="#/projects"
