@@ -20,6 +20,7 @@ export function metricFigure(metric: string): string | null {
 export interface Highlight {
   title: string
   text: string
+  tags?: string[]
   /** Element id inside the notes panel this highlight expands to. */
   target: string
 }
@@ -33,6 +34,7 @@ export function projectHighlights(project: Project): Highlight[] {
     return project.modules.map((module, i) => ({
       title: module.title,
       text: splitLead(module.body[0] ?? '').lead,
+      tags: module.tags,
       target: `${project.id}-m${i}`,
     }))
   }

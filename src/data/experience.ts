@@ -30,12 +30,12 @@ export const experience: Experience[] = [
     period: 'Jul 2024 – Dec 2025 · Full-time',
     location: 'Chengdu, China',
     bullets: [
-      'Built production C++ engine and simulation systems for Mandate Order, released on Steam Early Access.',
-      'Owned the skill system on the project’s multithreaded ECS architecture (GPU-instanced rendering at 10,000+ entities): data-driven ability configuration, event triggers decoupled from execution, commander skill preview and release, and Unreal Mass projectile processors.',
-      'Built dynamic road-graph routing with heap-based multi-source Dijkstra for threat-aware and supply routes, supporting 1,000+ concurrent agents; batched road-state synchronization across GameWorld and AIWorld.',
-      'Built the resource supply manager: headquarters deliveries, transport efficiency and resource updates driven by configuration tables.',
-      'Built the Enhanced Input tooling (prioritized mapping contexts, reference-counted action monitoring, action filtering), a CommonUI layer-stack manager and the game-settings registry and screens.',
-      'Partitioned terrain with Voronoi diagrams to derive plot adjacency, backing the in-game construction system.',
+      'Shipped production C++ systems for Mandate Order, a commercial Unreal Engine 5 strategy game released on Steam Early Access.',
+      'Built a threat-aware pathfinding service (heap-based multi-source Dijkstra) for 1,000+ concurrent agents, with batched, queue-based state sync to the AI thread.',
+      'Owned the data-driven skill system on the project’s multithreaded ECS: triggers decoupled from execution, commander skill preview and release, and Unreal Mass projectile processors.',
+      'Designed reusable input and UI frameworks: prioritized input contexts with reference-counted action monitoring, a stack-based UI layer manager, and a registry-based settings system.',
+      'Built Voronoi land partitioning with grid-approximated adjacency and heap-ordered expansion for the construction system.',
+      'Built the configuration-driven resource supply manager (deliveries, transport efficiency, resource updates).',
     ],
     media: [
       {
@@ -56,8 +56,8 @@ export const experience: Experience[] = [
     period: 'Sep 2023 – Jul 2024 · Internship',
     location: 'Chengdu, China',
     bullets: [
-      'Built a reusable templated C++ spatial library (k-dimensional KD-tree, union-find connected components, DBSCAN) for unit grouping, instrumented with Unreal stat counters.',
-      'Implemented Floyd–Warshall shortest paths for command relay across 50+ connected signal-tower nodes.',
+      'Built a reusable templated C++ spatial indexing library (KD-tree, union-find, DBSCAN) for unit grouping, instrumented for profiling.',
+      'Implemented Floyd–Warshall routing with cached next hops for command relay across 50+ signal-tower nodes.',
       'Built reusable behavior-tree components, reducing implementation time by approximately 50%.',
       'Delivered a playable tavern-management and farming prototype within one month with cross-functional teammates.',
     ],

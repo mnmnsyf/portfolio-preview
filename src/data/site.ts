@@ -22,25 +22,18 @@ export const site = {
      spatial algorithms in a shipped real-time strategy game to developer-facing SDKs and tools.`,
     `At
      <a href="https://www.digisky.com/" target="_blank" rel="noopener">Chengdu Digital Sky</a>
-     I spent over two years, intern to full-time, shipping production C++ for
+     (intern to full-time, two-plus years) I owned eight production systems for
      <a href="https://www.digisky.com/product/mo" target="_blank" rel="noopener">Mandate Order</a>,
-     now on Steam Early Access. I started on the algorithm-heavy systems (spatial queries, graph routing
-     for 1,000+ agents, Voronoi land ownership), owned the skill system, and moved into architecture work: input tooling,
-     the UI layer stack and the game-settings system.`,
-    `<strong>Seeking 2027 full-time software engineering roles in C++ software systems, backend and infrastructure,
-     performance engineering, and graphics &amp; simulation.</strong> M.S. in Computer Science at
-     <a href="https://www.usc.edu/" target="_blank" rel="noopener">USC</a> (graphics track), graduating May 2027;
-     current coursework includes CSCI 566: Deep Learning and Its Applications.`,
-    `Algorithms are my foundation: I'm an ICPC medalist and mentored my university's contest team.
-     I'm also a research assistant at the
-     <a href="https://www.math.ucla.edu/aivc/" target="_blank" rel="noopener">AIVC Lab</a> at UCLA, advised by Prof.
-     <a href="https://www.math.ucla.edu/~cffjiang/index.html" target="_blank" rel="noopener">Chenfanfu Jiang</a>,
-     and second author of <a href="#/research/articulatearena">ArticulateArena</a> (arXiv, submitted to ICLR).`,
-    `Recent independent work: an <a href="#/projects/angle-graphics-sdk">ANGLE-based .NET graphics SDK</a>
-     with a native C++ bridge, generated bindings and deterministic rendering tests, and
-     <a href="#/projects/path-tracing-denoising">deep learning for path-tracing denoising</a>:
-     a UE5 training-data pipeline plus a neural denoiser I am training in PyTorch, compared against SVGF
-     and DLSS Ray Reconstruction.`,
+     now on Steam Early Access: pathfinding for 1,000+ agents, spatial indexing, a data-driven skill
+     system, and the input and UI frameworks.`,
+    `<strong>Seeking 2027 full-time roles in C++ software systems, backend and infrastructure, and
+     performance engineering.</strong> M.S. in Computer Science at
+     <a href="https://www.usc.edu/" target="_blank" rel="noopener">USC</a>, May 2027 (current course:
+     CSCI 566 Deep Learning). ICPC medalist; research assistant at UCLA's
+     <a href="https://www.math.ucla.edu/aivc/" target="_blank" rel="noopener">AIVC Lab</a> and second author of
+     <a href="#/research/articulatearena">ArticulateArena</a>. Recently: an
+     <a href="#/projects/angle-graphics-sdk">ANGLE-based .NET graphics SDK</a> and
+     <a href="#/projects/path-tracing-denoising">deep learning for path-tracing denoising</a> in PyTorch.`,
   ],
 
   lastUpdated: 'October 2026',

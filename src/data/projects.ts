@@ -256,19 +256,19 @@ const gameplayEngineering: ProjectGroup = {
       tech: [
         'C++',
         'Unreal Engine 5',
-        'Graph Algorithms',
-        'Spatial Data Structures',
-        'Unreal Mass (ECS)',
+        'Algorithms & Data Structures',
+        'Multithreading',
+        'System Design',
       ],
       summary:
-        'Over two years of production C++ on a commercial Unreal Engine 5 strategy game, from internship to full-time, through its Steam Early Access launch. Building on the project’s multithreaded ECS architecture, I owned the algorithm-heavy systems (threat-aware routing, spatial grouping, command relay, Voronoi land ownership, the battle frontline) and the skill system, then took on architecture work: input tooling, the UI layer stack and the game-settings system.',
+        'Production C++ on a shipped Unreal Engine 5 strategy game, intern to full-time over two-plus years. I owned eight systems across graph algorithms, spatial indexing, data-driven gameplay, and input and UI frameworks.',
       metrics: [
-        '1,000+ concurrent agents on threat-aware road-graph routing',
-        '8 production systems owned, from graph algorithms and the skill system to input and UI architecture',
-        'Released on Steam Early Access, 12 Aug 2026',
+        '1,000+ concurrent agents served by the pathfinding system',
+        '8 production systems owned, from algorithms to frameworks',
+        'Shipped on Steam Early Access, 12 Aug 2026',
       ],
       body: [
-        'Mandate Order is a Warring States war city-builder by Chengdu Digital Sky, with real-time battles of thousands of soldiers. The engine side, a multithreaded ECS with GPU-instanced rendering at 10,000+ entities, was the project’s architecture; my systems were built on it and had to stay within its frame budget. The systems below are the ones I designed and owned.',
+        'A Warring States strategy game by Chengdu Digital Sky with real-time battles of thousands of units. The engine architecture (a multithreaded ECS with GPU instancing at 10,000+ entities) belonged to the project; the systems below are the ones I designed and owned on top of it.',
       ],
       links: [
         { label: 'Steam', href: 'https://store.steampowered.com/app/1733690' },
@@ -282,18 +282,25 @@ const gameplayEngineering: ProjectGroup = {
       ],
       modules: [
         {
-          title: 'Threat-aware routing on a dynamic road graph',
+          title: 'Threat-aware pathfinding service',
+          tags: [
+            'Graph algorithms',
+            'Dijkstra',
+            'Priority queue',
+            'Multithreading',
+            'Message queue',
+          ],
           body: [
-            'Units and supply move along a road network that changes during play: roads are built, damaged, reclaimed and change ownership. Routes have to reflect both distance and danger, for many agents at once.',
-            'I implemented a heap-based multi-source Dijkstra: the heap is seeded from several start nodes with initial distances, then weighted edges are relaxed. Edge weights combine distance, road type, faction-owned targets and nearby enemies in battle, which is what makes the routes threat-aware. The system serves 1,000+ concurrent agents.',
-            'Road state lives in the game world while AI runs on its own thread. Road creation, runtime state, visibility, connectivity and ownership changes are batched into commands and sent through a queue to the AI world, rather than shared directly across threads.',
+            'Heap-based multi-source Dijkstra over a road graph that changes at runtime. Edge weights combine distance, road type, ownership and nearby threats, serving 1,000+ concurrent agents.',
+            'Road updates are batched into commands and handed to the AI thread through a queue instead of sharing state across threads.',
           ],
         },
         {
-          title: 'Spatial grouping: KD-tree and union-find connected components',
+          title: 'Reusable spatial indexing library',
+          tags: ['KD-tree', 'Union-find', 'DBSCAN', 'C++ templates', 'Profiling'],
           body: [
-            'Convex hulls over unit clusters drive squad averaging, mouse selection, pathfinding and faction alignment, and they are rebuilt in real time. The prerequisite step is grouping soldiers connected within a distance threshold and picking the largest group.',
-            'I wrote a reusable, templated k-dimensional KD-tree with radius queries and combined it with union-find to compute connected components; the same library includes a configurable DBSCAN clustering utility. Tree construction, radius queries and component computation are instrumented with Unreal stat counters, and the caller can switch between depth-first search and the KD-tree paths so each can be profiled against the other.',
+            'A templated k-dimensional KD-tree with radius queries, union-find connected components and DBSCAN clustering, used to group units for selection, formations and pathfinding.',
+            'Instrumented with stat counters, with a runtime switch between DFS and KD-tree paths for side-by-side profiling.',
           ],
           media: [
             {
@@ -305,10 +312,10 @@ const gameplayEngineering: ProjectGroup = {
           ],
         },
         {
-          title: 'Command relay through a beacon graph',
+          title: 'Command relay routing',
+          tags: ['Floyd\u2013Warshall', 'Caching', 'Complexity trade-offs'],
           body: [
-            'Players issue orders to distant units through chains of signal beacons. Each commander’s beacon zone forms a graph that changes as beacons are added or lost.',
-            'I used Floyd–Warshall to compute all-pairs hop distances and next hops for each zone and cached both tables. A rebuild is O(V³) and runs only when the zone changes; in exchange, every relay lookup during play is a table read. The trade-off fits because zones are small and change far less often than orders are sent.',
+            'All-pairs shortest paths and next hops per beacon network, cached and rebuilt only when the network changes: an O(V\u00b3) rebuild buys constant-time lookups for every order.',
           ],
           media: [
             {
@@ -320,11 +327,11 @@ const gameplayEngineering: ProjectGroup = {
           ],
         },
         {
-          title: 'Voronoi-based plot management',
+          title: 'Voronoi land partitioning',
+          tags: ['Computational geometry', 'Grid spatial index', 'Graph traversal', 'Heap'],
           body: [
-            'Buildings own land, and land ownership is a Voronoi partition. Plot cells authored in a web tool are imported as SVG polygons and attached to the buildings that own them, scaled and rotated to match each building in the 3D world.',
-            'The hard part was adjacency. This game deliberately leaves gaps between plots, which breaks the usual shared-edge search. I approximated it instead: polygon vertices are mapped onto a bounded grid (16–64 cells per axis, derived from the cell count), and cells that share grid positions become neighbours. Grid resolution trades precision against speed, which made adjacency cheap enough to recompute during play.',
-            'In construction mode, the plot manager expands outward from a central building through adjacent plots, skipping invalid and occupied ones, and takes the next candidate from a heap ordered by occupancy and squared distance.',
+            'Imports SVG Voronoi cells as land plots. Because plots have deliberate gaps, adjacency is approximated on a bounded grid (16\u201364 cells per axis), trading precision for speed.',
+            'Construction expands outward from a central building, taking the next plot from a heap ordered by occupancy and distance.',
           ],
           media: [
             {
@@ -336,10 +343,10 @@ const gameplayEngineering: ProjectGroup = {
           ],
         },
         {
-          title: 'Dynamic battle frontline',
+          title: 'Dynamic frontline extraction',
+          tags: ['Grid algorithms', 'Boundary extraction', 'Real-time updates'],
           body: [
-            'The frontline is the shifting boundary between engaged armies. I partitioned the terrain into a grid, determined which force occupies each cell, then collected and ordered the edges between adjacent cells held by different factions into continuous border segments.',
-            'Sampling segment endpoints through sine offsets gives the line a wave-like edge instead of a hard polygonal one.',
+            'Tracks faction ownership per grid cell, collects the edges between opposing cells into continuous border segments, and smooths them with sine offsets.',
           ],
           media: [
             {
@@ -355,25 +362,42 @@ const gameplayEngineering: ProjectGroup = {
           ],
         },
         {
-          title: 'Input tooling and command handling',
+          title: 'Input framework and command handling',
+          tags: [
+            'Framework design',
+            'API design',
+            'Reference counting',
+            'State machine',
+            'Debug tooling',
+          ],
           body: [
-            'The game switches between operation modes and temporary interaction layers, and actions must be rebindable. I built the Enhanced Input tooling the game code uses: helpers for action binding, adding and removing mapping contexts with configured priorities, reference-counted monitoring of action events, and black/white-list filtering of actions.',
-            'I also wrote the instruction manager interface for player selection and command gestures, such as box selection and right-click orders, driven by configured game states, and an in-game debug widget that shows which input actions fire, for diagnosing binding problems.',
+            'Reusable input APIs on Unreal Enhanced Input: prioritized mapping contexts, reference-counted action monitoring and action allow/deny lists, shared across game modes.',
+            'A configuration-driven instruction manager for selection and command gestures, plus an in-game debug view of firing actions.',
           ],
         },
         {
-          title: 'UI layer stack and game settings',
+          title: 'UI layer stack and settings system',
+          tags: [
+            'UI architecture',
+            'Stack-based navigation',
+            'Registry pattern',
+            'Reusable components',
+          ],
           body: [
-            'I built the CommonUI manager that gives each player a root layout and pushes activatable widgets onto gameplay-tagged layer stacks, so screens open and close in a predictable order.',
-            'On top of it I built the game-settings system: a settings registry and manager, reusable controls (dropdown entries, a brightness screen, buttons with shared text styling) and a read-only hint for shortcuts that cannot be rebound.',
+            'A CommonUI manager with per-player root layouts and tagged layer stacks for predictable screen navigation, and a settings system built on a registry with reusable controls.',
           ],
         },
         {
-          title: 'Skill system on Unreal Mass (ECS)',
+          title: 'Data-driven skill system',
+          tags: [
+            'Data-driven design',
+            'Event-driven architecture',
+            'Decoupling',
+            'ECS (Unreal Mass)',
+          ],
           body: [
-            'I owned the skill system: how abilities are configured, triggered and executed for commanders and AI units. Abilities are data-driven, so they are added and tuned in configuration rather than in code.',
-            'Event triggers are decoupled from execution, so trigger conditions and the effects they cause are configured independently. Commander skills have a dedicated manager that handles skill preview and release.',
-            'Projectiles are Unreal Mass entities. I defined the bullet trait and the processors for their initialization and per-frame updates, which iterate bullet fragments chunk by chunk to handle movement, collision checks and hits.',
+            'Configuration-driven abilities for commanders and AI units, with triggers decoupled from execution so abilities are added and tuned in configuration rather than code.',
+            'Projectiles run as Mass ECS entities through processors I wrote for initialization, movement, collision and hits.',
           ],
         },
       ],
