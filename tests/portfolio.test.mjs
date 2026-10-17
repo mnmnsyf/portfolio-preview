@@ -201,3 +201,30 @@ test('interactive layer: live demos, hero field and on-demand command palette', 
     assert.ok(!pageHtml.includes('role="dialog"'), 'palette renders only when opened')
   }
 })
+
+test('project notes toggle sits beside resources and highlights come from authored text', async () => {
+  const { metricFigure, splitLead, projectHighlights } =
+    await server.ssrLoadModule('/src/projectText.ts')
+  assert.equal(metricFigure('Connected-component computation cut to ~25% of original time'), '~25%')
+  assert.equal(metricFigure('ArticulateArena-20K: 19,977 articulated objects'), '19,977')
+  assert.equal(metricFigure('Released on Steam Early Access, 12 Aug 2026'), null)
+  assert.deepEqual(splitLead('First sentence is here. Second one follows.'), {
+    lead: 'First sentence is here.',
+    rest: 'Second one follows.',
+  })
+  const projectsHtml = pages.get('projects')
+  for (const project of projectGroups.flatMap((group) => group.projects)) {
+    const start = projectsHtml.indexOf(`<article id="${project.id}"`)
+    const article = projectsHtml.slice(start, projectsHtml.indexOf('</article>', start))
+    const actions = article.slice(
+      article.indexOf('class="p-actions"'),
+      article.indexOf('</header>'),
+    )
+    if (project.body?.length || project.modules?.length) {
+      assert.ok(actions.includes('project-links'), `${project.title} resources`)
+      assert.ok(actions.includes(`aria-controls="${project.id}-notes"`), `${project.title} toggle`)
+      for (const highlight of projectHighlights(project))
+        assert.ok(article.includes(`id="${highlight.target}"`), `${highlight.target} target`)
+    }
+  }
+})

@@ -26,6 +26,7 @@
           v-for="project in group.projects"
           :key="project.id"
           :project="project"
+          :index="order.get(project.id)"
           class="entry"
         />
       </section>
@@ -37,6 +38,11 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { projectGroups } from '@/data/projects'
 import ProjectEntry from './ProjectEntry.vue'
+
+/** Continuous numbering across groups, in reading order. */
+const order = new Map(
+  projectGroups.flatMap((group) => group.projects).map((project, i) => [project.id, i + 1]),
+)
 
 /** Scroll-spy: the rail highlights the last project whose top has passed the reading line. */
 const current = ref(projectGroups[0]?.projects[0]?.id ?? '')
