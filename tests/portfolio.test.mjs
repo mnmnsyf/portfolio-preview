@@ -170,3 +170,17 @@ test('asset URLs respect preview subdirectories without changing external or sec
     }
   }
 })
+
+test('website uses Fiona without Chinese profile text and describes ongoing deep learning', () => {
+  const entry = pages.get('top')
+  assert.ok(entry.includes('Fiona She'))
+  for (const pageHtml of pages.values()) {
+    const text = pageHtml.replace(/<[^>]*>/g, '')
+    assert.ok(!text.includes('Yongfei'))
+    assert.ok(!/[\u3400-\u9fff]/u.test(text))
+  }
+  assert.ok(entry.includes('C++ software systems'))
+  assert.ok(entry.includes('CSCI 566'))
+  assert.ok(entry.includes('deep learning'))
+  assert.ok(entry.includes('PyTorch'))
+})

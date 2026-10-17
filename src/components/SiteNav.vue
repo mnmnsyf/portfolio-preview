@@ -1,6 +1,6 @@
 <template>
   <aside class="sidebar">
-    <a href="#/" class="profile-link" aria-label="Yongfei She — back to introduction">
+    <a href="#/" class="profile-link" :aria-label="`${site.name} — back to introduction`">
       <img
         class="sidebar-portrait"
         :src="assetUrl(site.photo.src)"
@@ -9,9 +9,8 @@
         height="112"
       />
       <span class="profile-name">{{ site.name }}</span>
-      <span class="profile-zh" lang="zh">{{ site.nameZh }}</span>
     </a>
-    <p class="sidebar-role">C++ engineer.<br />Graphics & simulation.</p>
+    <p class="sidebar-role">C++ software engineer.<br />Graphics & simulation.</p>
     <nav class="section-nav" aria-label="Main navigation">
       <a
         v-for="(section, index) in sections"

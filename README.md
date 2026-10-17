@@ -1,4 +1,4 @@
-# Yongfei She — Portfolio Preview
+# Fiona She — Portfolio Preview
 
 Preview: https://mnmnsyf.github.io/portfolio-preview/
 
