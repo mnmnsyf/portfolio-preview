@@ -35,10 +35,10 @@ const stats = [
     source: 'ICPC · Baidu Star · collegiate contests',
   },
   {
-    value: 19977,
-    suffix: '',
-    label: 'articulated objects in ArticulateArena-20K',
-    source: 'arXiv · second author',
+    value: 2,
+    suffix: '+',
+    label: 'years of production C++, intern to full-time',
+    source: 'Chengdu Digital Sky',
   },
 ]
 

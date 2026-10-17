@@ -35,7 +35,6 @@ export const experience: Experience[] = [
       'Owned the data-driven skill system on the project’s multithreaded ECS: triggers decoupled from execution, commander skill preview and release, and Unreal Mass projectile processors.',
       'Designed reusable input and UI frameworks: prioritized input contexts with reference-counted action monitoring, a stack-based UI layer manager, and a registry-based settings system.',
       'Built Voronoi land partitioning with grid-approximated adjacency and heap-ordered expansion for the construction system.',
-      'Built the configuration-driven resource supply manager (deliveries, transport efficiency, resource updates).',
     ],
     media: [
       {

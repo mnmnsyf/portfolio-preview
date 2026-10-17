@@ -209,7 +209,7 @@ test('interactive layer: live demos, hero field and on-demand command palette', 
   }
   const entry = pages.get('top')
   assert.ok(entry.includes('class="voronoi-field'))
-  assert.ok(entry.includes('19,977'))
+  assert.ok(entry.includes('years of production C++'))
   for (const pageHtml of pages.values()) {
     assert.ok(pageHtml.includes('aria-label="Open command palette"'))
     assert.ok(!pageHtml.includes('role="dialog"'), 'palette renders only when opened')

@@ -127,8 +127,8 @@
             <div class="module-head">
               <span class="h-num">{{ pad(i + 1) }}</span>
               <h4>{{ module.title }}</h4>
-              <p v-if="module.tags?.length" class="h-tags module-tags">
-                <span v-for="tag in module.tags" :key="tag">{{ tag }}</span>
+              <p v-if="highlights[i]?.tags?.length" class="h-tags module-tags">
+                <span v-for="tag in highlights[i]!.tags" :key="tag">{{ tag }}</span>
               </p>
             </div>
             <div class="module-grid" :class="{ stacked: module.mediaColumns === 1 }">
