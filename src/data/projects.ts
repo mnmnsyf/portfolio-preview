@@ -68,11 +68,11 @@ const engineRendering: ProjectGroup = {
     },
     {
       id: 'engine-subsystems',
-      title: 'AI-Assisted Shader Authoring & Multithreaded Game Engine',
+      title: 'AI-Assisted Developer Tool & Multithreaded ECS Real-Time Engine',
       period: 'Jan \u2013 May 2026',
       tech: ['C++', 'Multithreading', 'ECS', 'DirectX 11 / HLSL', 'Python', 'Lua'],
       summary:
-        'A game engine extended with multithreaded ECS simulation, skeletal animation and GPU culling, plus an AI-assisted shader authoring tool that hot-swaps HLSL into the running engine with a safe fallback. Built on the course-provided PrimeEngine framework.',
+        'A real-time engine extended with multithreaded ECS simulation, skeletal animation and GPU culling, plus an AI-assisted shader authoring tool that hot-swaps HLSL into the running engine with a safe fallback. Built on the course-provided PrimeEngine framework.',
       metrics: [
         'Shader changes applied live, with no engine restart',
         'Failed compiles fall back to the last working shader',
