@@ -1,9 +1,6 @@
 /** Intrinsic asset sizes reserve layout space before lazy media loads. */
 export const mediaDimensions: Record<string, { width: number; height: number }> = {
-  '/illustrations/mo-overview.webp': { width: 822, height: 454 },
-  '/illustrations/mo-voronoi.webp': { width: 830, height: 465 },
   '/illustrations/mo-routing.webp': { width: 1672, height: 818 },
-  '/illustrations/mo-spatial-hash.webp': { width: 1672, height: 797 },
   '/illustrations/mo-command-relay.webp': { width: 1672, height: 716 },
   '/angle-sdk-architecture.svg': { width: 960, height: 260 },
   '/denoising-workflow.svg': { width: 960, height: 320 },
