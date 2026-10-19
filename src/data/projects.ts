@@ -255,6 +255,11 @@ const gameplayEngineering: ProjectGroup = {
     {
       id: 'project-mo',
       title: 'Mandate Order',
+      illustration: {
+        src: '/illustrations/mo-overview.webp',
+        alt: 'Eight blue blocks, each marked with a system icon, standing on a gray platform that represents the engine',
+        caption: 'Eight systems I owned, built on the project\u2019s engine architecture.',
+      },
       role: 'Software Engineer (C++)',
       period: 'Sep 2023 – Dec 2025',
       tech: [
@@ -288,6 +293,11 @@ const gameplayEngineering: ProjectGroup = {
       modules: [
         {
           title: 'Threat-aware pathfinding service',
+          illustration: {
+            src: '/illustrations/mo-routing.webp',
+            alt: 'A road map where a blue route bends around a hatched danger zone while the dashed shortest path cuts through it',
+            caption: 'Routes bend around danger, for 1,000+ concurrent agents.',
+          },
           tags: [
             'Graph algorithms',
             'Dijkstra',
@@ -302,6 +312,11 @@ const gameplayEngineering: ProjectGroup = {
         },
         {
           title: 'Spatial indexing and connectivity',
+          illustration: {
+            src: '/illustrations/mo-spatial-hash.webp',
+            alt: 'Unit dots on a grid grouped into outlined clusters; one unit checks only its own and the eight neighbouring cells',
+            caption: 'Only neighbouring cells are checked: 85% less work at a 1,000-unit workload.',
+          },
           tags: ['Spatial hashing', 'Uniform grid', 'KD-tree', 'Union-find', 'Profiling'],
           body: [
             'Unit grouping needs connected components of soldiers within a distance threshold, rebuilt in real time for selection, formations and pathfinding.',
@@ -318,6 +333,11 @@ const gameplayEngineering: ProjectGroup = {
         },
         {
           title: 'Command relay routing',
+          illustration: {
+            src: '/illustrations/mo-command-relay.webp',
+            alt: 'Beacon towers on hills linked into a network; a blue signal hops along the shortest chain from a command tent to distant soldiers',
+            caption: 'Orders hop tower to tower along the shortest chain.',
+          },
           tags: ['Floyd\u2013Warshall', 'Caching', 'Complexity trade-offs'],
           body: [
             'All-pairs shortest paths and next hops per beacon network, cached and rebuilt only when the network changes: an O(V\u00b3) rebuild buys constant-time lookups for every order.',
@@ -333,6 +353,11 @@ const gameplayEngineering: ProjectGroup = {
         },
         {
           title: 'Voronoi land partitioning',
+          illustration: {
+            src: '/illustrations/mo-voronoi.webp',
+            alt: 'Voronoi land plots around a central building, with rings of plots shaded blue outward from the centre',
+            caption: 'Land is claimed plot by plot, outward from the centre.',
+          },
           tags: ['Computational geometry', 'Grid spatial index', 'Graph traversal', 'Heap'],
           body: [
             'Imports SVG Voronoi cells as land plots. Because plots have deliberate gaps, adjacency is approximated on a bounded grid (16\u201364 cells per axis), trading precision for speed.',
