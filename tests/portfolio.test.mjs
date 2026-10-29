@@ -159,7 +159,10 @@ test('navigation resolves section URLs and legacy project anchors', async () => 
     section: 'research',
     target: 'articulatearena',
   })
-  assert.deepEqual(resolveRoute('#/experience'), { section: 'experience', target: null })
+  assert.deepEqual(resolveRoute('#/experience'), { section: 'about', target: 'experience' })
+  assert.deepEqual(resolveRoute('#news'), { section: 'about', target: 'news' })
+  assert.deepEqual(resolveRoute('#/skills'), { section: 'engine', target: null })
+  assert.deepEqual(resolveRoute('#/about/awards'), { section: 'about', target: 'awards' })
   assert.deepEqual(resolveRoute('#/'), { section: 'top', target: null })
   assert.deepEqual(resolveRoute('#/research/project-mo'), { section: 'research', target: null })
   assert.deepEqual(resolveRoute('#%malformed'), { section: 'top', target: null })
@@ -312,7 +315,14 @@ test('Chinese version translates the site and presents Fiona as a game developer
 test('every English sentence has a Chinese translation and no translation is stale', async () => {
   const { hasTranslation } = await server.ssrLoadModule('/src/i18n.ts')
   const { zh } = await server.ssrLoadModule('/src/data/zh.ts')
-  const modules = ['news', 'skills', 'awards', 'education', 'highlights', 'mandateOrderScreenshots']
+  const modules = [
+    'news',
+    'modules',
+    'awards',
+    'education',
+    'highlights',
+    'mandateOrderScreenshots',
+  ]
   const content = [projectGroups, experience, articulateArena, sections]
   for (const name of modules) content.push(await server.ssrLoadModule(`/src/data/${name}.ts`))
   const { site } = await server.ssrLoadModule('/src/data/site.ts')
@@ -338,6 +348,9 @@ test('every English sentence has a Chinese translation and no translation is sta
     'Visual Studio',
     'Unreal Insights',
     'Khronos XML',
+    'Unreal Enhanced Input',
+    'C# / .NET',
+    'OpenGL / OpenGL ES',
   ])
   const rawKeys = new Set(['id', 'href', 'src', 'poster', 'image', 'kind', 'icon', 'target'])
   const missing = []

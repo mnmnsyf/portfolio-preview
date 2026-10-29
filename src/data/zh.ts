@@ -92,6 +92,26 @@ export const zh: Record<string, string> = {
   'Path Tracing Denoising': '路径追踪降噪',
   'ANGLE Graphics SDK': 'ANGLE 图形 SDK',
 
+  // Skill modules
+  'Engine & Systems': '引擎与系统',
+  Engine: '引擎与系统',
+  Gameplay: 'Gameplay 与工具',
+  Graphics: '图形与仿真',
+  'Gameplay & Tools': 'Gameplay 与工具',
+  'Graphics & Simulation': '图形与仿真',
+  'What I do': '能力模块',
+  'Shipped in Mandate Order': '已在 Mandate Order 上线',
+  'Project overview →': '项目概览 →',
+  'More evidence': '更多项目',
+  'Open project →': '查看项目 →',
+  'Behavior trees': '行为树',
+  'Large-scale real-time systems in C++: multithreaded simulation, spatial data structures and graph algorithms that hold up at thousands of units.':
+    '用 C++ 做大规模实时系统：多线程仿真、空间数据结构和图算法，几千个单位同屏也扛得住。',
+  'Gameplay frameworks and developer tools: data-driven abilities, input and UI layers, code generation and hot reload.':
+    'Gameplay 框架和开发工具：数据驱动的技能系统、输入和 UI 框架、代码生成与热重载。',
+  'Rendering and physics built from first principles: a software rasterizer, post-process shaders, inverse kinematics with skinning, and soft-body simulation with live demos.':
+    '从原理出发做渲染和物理：软光栅渲染器、后处理 shader、带蒙皮的 IK，以及带在线演示的软体仿真。',
+
   // Command palette
   'Command palette': '命令面板',
   'Search projects, sections, links…': '搜索项目、栏目、链接…',
@@ -225,32 +245,17 @@ export const zh: Record<string, string> = {
     '结束在成都数字天空两年多的工作。从实习到转正，一直在用 C++ 给商业策略游戏 Mandate Order 做线上系统。',
 
   // ── Skills ───────────────────────────────────────────────────
-  'Production C++ systems and performance work, algorithms and data structures, software architecture and developer tooling, with depth in real-time graphics, simulation and deep learning.':
-    'C++ 线上系统开发和性能优化，算法与数据结构，软件架构和开发工具；在实时图形、仿真和深度学习上也做过比较深入的项目。',
-  Languages: '编程语言',
-  Systems: '系统',
   'Data Structures & Algorithms': '数据结构与算法',
-  'Graph & Spatial Algorithms': '图算法与空间算法',
   'Performance Optimization': '性能优化',
-  'Architecture & Tooling': '架构与工具',
-  'Input & UI Frameworks': '输入与 UI 框架',
-  'SDK & API Design': 'SDK 与 API 设计',
   'Code Generation': '代码生成',
   'Hot Reload': '热重载',
   'Editor & Debug Tools': '编辑器与调试工具',
-  'Testing & Validation': '测试与验证',
-  'Deterministic Rendering Tests': '确定性渲染测试',
   Benchmarking: '基准测试',
-  'Multi-model Evaluation': '多模型评测',
-  Graphics: '图形',
   Simulation: '仿真',
   Kinematics: '运动学',
   'Physics Simulation': '物理仿真',
   'Animation Systems': '动画系统',
   'Deep Learning': '深度学习',
-  'Neural Denoising': '神经网络降噪',
-  'Training-Data Pipelines': '训练数据管线',
-  'Engines & Tools': '引擎与工具',
 
   // ── Awards ───────────────────────────────────────────────────
   'Silver Medal': '银牌',

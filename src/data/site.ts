@@ -78,14 +78,13 @@ export const featuredWork = [
   },
 ]
 
-/** Independent sections in sidebar order. */
+/** Independent sections in navigation order. `nav` is the short top-bar label. */
 export const sections = [
-  { id: 'top', label: 'Entry' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'research', label: 'Research' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'news', label: 'Updates' },
-  { id: 'education', label: 'Education' },
-  { id: 'awards', label: 'Awards' },
-  { id: 'skills', label: 'Skills' },
+  { id: 'top', label: 'Entry', nav: 'Entry' },
+  { id: 'engine', label: 'Engine & Systems', nav: 'Engine' },
+  { id: 'gameplay', label: 'Gameplay & Tools', nav: 'Gameplay' },
+  { id: 'graphics', label: 'Graphics & Simulation', nav: 'Graphics' },
+  { id: 'projects', label: 'Projects', nav: 'Projects' },
+  { id: 'research', label: 'Research', nav: 'Research' },
+  { id: 'about', label: 'About', nav: 'About' },
 ] as const
