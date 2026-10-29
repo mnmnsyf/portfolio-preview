@@ -14,7 +14,7 @@
           >
         </h1>
         <p v-if="locale === 'zh'" class="hero-role">
-          游戏开发，专注于高性能的 <em>C++ 系统</em>、<em>工具</em>与<em>仿真</em>。
+          游戏开发，做高性能的 <em>C++ 系统</em>、<em>工具</em>和<em>仿真</em>。
         </p>
         <p v-else class="hero-role">
           Software engineer building high-performance <em>C++ systems</em>, <em>tools</em> &amp;

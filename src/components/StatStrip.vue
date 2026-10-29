@@ -24,7 +24,7 @@ const stats = [
     source: 'Mandate Order · Digital Sky',
   },
   {
-    value: 1000,
+    value: 2000,
     suffix: '+',
     label: 'concurrent agents on dynamic road-graph routing',
     source: 'Multi-source Dijkstra',
@@ -32,7 +32,7 @@ const stats = [
   {
     value: 85,
     suffix: '%',
-    label: 'less connectivity computation at a 1,000-unit workload',
+    label: 'less connectivity computation at a 2,000-unit workload',
     source: 'Spatial hashing · uniform grid',
   },
   {

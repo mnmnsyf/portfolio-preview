@@ -287,7 +287,7 @@ test('Chinese version translates the site and presents Fiona as a game developer
     for (const project of allProjects)
       zhProjects.set(project.id, await renderPage(`#/projects/${project.id}`))
     const entry = zhPages.get('top')
-    assert.ok(entry.includes('欢迎来到我的个人网站。'))
+    assert.ok(entry.includes('欢迎来到我的个人主页。'))
     assert.ok(entry.includes('Fiona She'))
     assert.ok(entry.includes('游戏开发'))
     assert.ok(
