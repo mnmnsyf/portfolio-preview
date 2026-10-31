@@ -341,6 +341,7 @@ test('every English sentence has a Chinese translation and no translation is sta
     'ECS (Unreal Mass)',
     'Unreal Mass (ECS)',
     'Mandate Order',
+    'O(n log n)',
     'Sight Tour',
     'OpenGL ES',
     'DirectX 11',
@@ -386,6 +387,7 @@ test('every English sentence has a Chinese translation and no translation is sta
   const source = normalize(files.map((path) => readFileSync(path, 'utf8')).join('\n'))
     .replaceAll('\\u2013', '–')
     .replaceAll('\\u2019', '’')
+    .replaceAll('\\u00b2', '²')
     .replaceAll('\\u00b3', '³')
     .replaceAll("\\'", "'")
   const stale = Object.keys(zh).filter((en) => !source.includes(normalize(en).trim()))

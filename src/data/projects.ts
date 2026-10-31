@@ -267,7 +267,7 @@ const gameplayEngineering: ProjectGroup = {
       summary:
         'Production C++ on a shipped Unreal Engine 5 4X strategy game, intern to full-time over two-plus years. I owned eight systems across graph algorithms, spatial indexing, data-driven gameplay, and input and UI frameworks.',
       metrics: [
-        '85% less connectivity computation at the typical 2,000-unit workload',
+        '~85% less connectivity time at 2,000 soldiers with a templated KD-tree',
         '2,000+ concurrent agents served by the pathfinding system',
         '8 production systems owned, from algorithms to frameworks',
         'Shipped on Steam Early Access, 12 Aug 2026',
@@ -306,18 +306,48 @@ const gameplayEngineering: ProjectGroup = {
           ],
         },
         {
-          title: 'Spatial indexing and connectivity',
-          tags: ['Spatial hashing', 'Uniform grid', 'KD-tree', 'Union-find', 'Profiling'],
+          title: 'KD-tree connectivity for squad hulls',
+          tags: ['KD-tree', 'Quickselect', 'Union-find', 'C++ templates', 'Optick profiling'],
           body: [
-            'Unit grouping needs connected components of soldiers within a distance threshold, rebuilt in real time for selection, formations and pathfinding.',
-            'For the typical 2,000-unit workload I replaced the naive search with spatial hashing on a uniform grid, cutting connectivity computation by 85%. A templated k-dimensional KD-tree (with union-find and DBSCAN) is kept for 5,000\u20136,000-unit scenes, where it pays off. Both paths are instrumented with stat counters.',
+            'Every squad\u2019s convex hull drives selection, enemy search, marching on the road network and formation logic. The hull is built from the squad\u2019s largest connected group: soldiers linked by a chain of neighbors within a set distance. Soldiers keep moving, so the groups are recomputed every few ticks on the AI thread.',
+            'The old code ran a DFS that compared each soldier with every other one, which is O(n\u00b2). It was fine for small squads, but in Optick the hull update for large squads was dominated by those pairwise distance checks.',
+            'I wrote a templated k-dimensional KD-tree. Each level splits at the median of one axis, so the tree stays balanced for lines, wedges and rings alike, where a quadtree\u2019s even split leaves cells lopsided. Unreal had no nth-element by axis for our vector arrays, so I wrote a quickselect, which keeps the build at O(n log n) instead of O(n log\u00b2 n) with sorting.',
+            'The radius query skips any subtree whose bounds are out of range and takes a subtree whole when its bounds fall inside. Union-find merges groups during the query itself, so no neighbor lists are stored and there is no second pass.',
+            'I measured it A/B against the old algorithm in the same scene, squad size and formation (Optick, i7-13700KF, the project\u2019s UE 5.3 engine branch). The gain grows with squad size. The tree is generic over dimension and point type, so other spatial queries such as nearest neighbors and squads in range can share it.',
           ],
+          results: [
+            { value: '~55%', label: 'less time at 200 soldiers' },
+            { value: '~85%', label: 'less time at 2,000 soldiers' },
+            { value: 'O(n log n)', label: 'tree build, with quickselect median splits' },
+          ],
+          mediaColumns: 2,
           media: [
             {
               kind: 'video',
               src: '/connected-component-optimization.mp4',
               poster: '/connected-component-poster.png',
-              alt: 'Connected components computed over unit clusters',
+              alt: 'KD-tree splits drawn over four squads in square, ring, wedge and loose formations',
+              caption:
+                'Median splits adapt to each formation: square, ring, wedge and loose crowd.',
+            },
+            {
+              kind: 'image',
+              src: '/kdtree-optick-2000.png',
+              alt: 'Optick profiler capture of the squad hull update on the AI thread, broken down into near-point queries',
+              caption:
+                'Optick capture from the A/B runs: the hull update on the AI thread with a 2,000-soldier squad.',
+            },
+            {
+              kind: 'image',
+              src: '/kdtree-links.jpg',
+              alt: 'Debug lines linking soldiers in a squad to the neighbors the radius query found',
+              caption: 'Debug draw of the neighbor links found by the radius query.',
+            },
+            {
+              kind: 'image',
+              src: '/kdtree-hulls.jpg',
+              alt: 'Hull outlines drawn around the connected groups of a moving archer squad',
+              caption: 'Hulls built from the connected groups of a moving squad.',
             },
           ],
         },

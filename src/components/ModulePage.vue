@@ -33,6 +33,7 @@
         <div class="system-body" :class="{ 'has-figure': system.illustration }">
           <div class="prose">
             <p v-for="(paragraph, p) in system.body" :key="p">{{ paragraph }}</p>
+            <ModuleResults v-if="system.results?.length" :results="system.results" />
           </div>
           <IllustrationFigure v-if="system.illustration" :illustration="system.illustration" />
         </div>
@@ -83,6 +84,7 @@ import { localize, t } from '@/i18n'
 import { splitLead } from '@/projectText'
 import IllustrationFigure from './IllustrationFigure.vue'
 import MediaGrid from './MediaGrid.vue'
+import ModuleResults from './ModuleResults.vue'
 
 const props = defineProps<{ module: SkillModule }>()
 

@@ -76,8 +76,8 @@ export const zh: Record<string, string> = {
   'Mandate Order · Digital Sky': 'Mandate Order · 数字天空',
   'concurrent agents on dynamic road-graph routing': '个单位同时在动态路网上寻路',
   'Multi-source Dijkstra': '多源 Dijkstra',
-  'less connectivity computation at a 2,000-unit workload': '2,000 单位规模下，连通性计算量的降幅',
-  'Spatial hashing · uniform grid': '空间哈希 · 均匀网格',
+  'less connectivity time at 2,000 soldiers': '2,000 人小队的连通性计算耗时降幅',
+  'Templated KD-tree · union-find': '模板 KD 树 · 并查集',
   'years of production C++, intern to full-time': '年 C++ 项目经验，实习转正',
   'Chengdu Digital Sky': '成都数字天空',
 
@@ -310,8 +310,6 @@ export const zh: Record<string, string> = {
   'Mandate Order on Steam': 'Steam 上的 Mandate Order',
   'Shipped production C++ systems for Mandate Order, a commercial Unreal Engine 5 strategy game released on Steam Early Access, growing from intern to full-time engineer.':
     '为商业 UE5 策略游戏 Mandate Order 开发多个 C++ 线上系统（已在 Steam 抢先体验上线），从实习做到正式员工。',
-  'Cut connectivity computation by 85% at the typical 2,000-unit workload with spatial hashing on a uniform grid; built a templated KD-tree, union-find and DBSCAN library for 5,000+ unit scenes.':
-    '用均匀网格空间哈希优化单位连通性计算，常见的 2,000 单位规模下计算量降低 85%；针对 5,000+ 单位的场景，实现了模板化的 KD 树、并查集和 DBSCAN 库。',
   'Built a threat-aware pathfinding service (heap-based multi-source Dijkstra) for 2,000+ concurrent agents, with batched, queue-based state sync to the AI thread.':
     '实现威胁感知寻路服务（基于堆的多源 Dijkstra），支撑 2,000+ 单位同时寻路；状态变更批量入队，再同步给 AI 线程。',
   'Owned the data-driven skill system for 100+ abilities on the project’s multithreaded ECS: triggers decoupled from execution, commander skill preview and release, and Unreal Mass projectile processors.':
@@ -598,8 +596,6 @@ export const zh: Record<string, string> = {
   'System Design': '系统设计',
   'Production C++ on a shipped Unreal Engine 5 4X strategy game, intern to full-time over two-plus years. I owned eight systems across graph algorithms, spatial indexing, data-driven gameplay, and input and UI frameworks.':
     '已上线的 UE5 4X 策略游戏。我在项目里写了两年多 C++，从实习做到正式员工，负责八个系统，涉及图算法、空间索引、数据驱动玩法，以及输入和 UI 框架。',
-  '85% less connectivity computation at the typical 2,000-unit workload':
-    '常见 2,000 单位规模下，连通性计算量降低 85%',
   '2,000+ concurrent agents served by the pathfinding system': '寻路系统支撑 2,000+ 单位同时寻路',
   '8 production systems owned, from algorithms to frameworks':
     '负责 8 个线上系统，从底层算法到框架',
@@ -624,17 +620,45 @@ export const zh: Record<string, string> = {
     '在运行时会变化的路网上跑基于堆的多源 Dijkstra。边权综合考虑距离、道路类型、归属和附近威胁，支撑 2,000+ 单位同时寻路。',
   'Road updates are batched into commands and handed to the AI thread through a queue instead of sharing state across threads.':
     '道路更新先批量打包成命令，再通过队列交给 AI 线程，避免跨线程共享状态。',
-  'Spatial indexing and connectivity': '空间索引与连通性',
-  'Spatial hashing': '空间哈希',
-  'Uniform grid': '均匀网格',
+  'KD-tree connectivity for squad hulls': '用 KD 树算小队凸包的连通分量',
+  'C++ templates': 'C++ 模板',
+  Quickselect: '快速选择',
+  'Optick profiling': 'Optick 性能分析',
+  'Every squad’s convex hull drives selection, enemy search, marching on the road network and formation logic. The hull is built from the squad’s largest connected group: soldiers linked by a chain of neighbors within a set distance. Soldiers keep moving, so the groups are recomputed every few ticks on the AI thread.':
+    '小队的凸包用处很多：鼠标选中、搜敌、路网行军、阵型自适应都靠它。凸包取的是小队里最大的连通分量，也就是彼此距离在阈值内、能一个接一个连起来的那群士兵。士兵一直在移动，所以 AI 线程每隔几帧就要重算一次。',
+  'The old code ran a DFS that compared each soldier with every other one, which is O(n²). It was fine for small squads, but in Optick the hull update for large squads was dominated by those pairwise distance checks.':
+    '原来的做法是 DFS，每个士兵都和其他所有士兵算一遍距离，复杂度 O(n²)。人少时没问题，但用 Optick 看大规模小队，凸包更新的时间几乎都耗在这些两两距离比较上。',
+  'I wrote a templated k-dimensional KD-tree. Each level splits at the median of one axis, so the tree stays balanced for lines, wedges and rings alike, where a quadtree’s even split leaves cells lopsided. Unreal had no nth-element by axis for our vector arrays, so I wrote a quickselect, which keeps the build at O(n log n) instead of O(n log² n) with sorting.':
+    '我实现了一个 K 维模板 KD 树。每一层按某个轴的中位数切分，所以不管是长条阵、锥形阵还是圆阵，树都能保持平衡；四叉树按空间等分，阵型一不均匀，格子就有的满有的空。UE 里没有按指定维度对向量数组做 nth-element 的函数，我就自己写了快速选择，建树是 O(n log n)，用排序找中位数则是 O(n log² n)。',
+  'The radius query skips any subtree whose bounds are out of range and takes a subtree whole when its bounds fall inside. Union-find merges groups during the query itself, so no neighbor lists are stored and there is no second pass.':
+    '半径查询时，包围盒在范围外的子树整棵跳过，整个落在范围内的子树直接整棵收下。查询过程中顺手用并查集合并连通分量，不用先存邻接表，也不用再扫第二遍。',
+  'I measured it A/B against the old algorithm in the same scene, squad size and formation (Optick, i7-13700KF, the project’s UE 5.3 engine branch). The gain grows with squad size. The tree is generic over dimension and point type, so other spatial queries such as nearest neighbors and squads in range can share it.':
+    '测试是新旧算法 A/B 对比：同一场景、同样的人数和阵型，用 Optick 测（i7-13700KF，项目的 UE 5.3 引擎分支）。人数越多，提升越明显。KD 树的维度和点类型都是模板参数，K 近邻、查范围内的小队这类空间查询也能直接复用。',
+  'less time at 200 soldiers': '200 人小队，耗时降幅',
+  'less time at 2,000 soldiers': '2,000 人小队，耗时降幅',
+  'tree build, with quickselect median splits': '建树复杂度，快速选择取中位数',
+  'KD-tree splits drawn over four squads in square, ring, wedge and loose formations':
+    '方阵、圆阵、锥形阵和散阵四个小队上画出的 KD 树切分线',
+  'Median splits adapt to each formation: square, ring, wedge and loose crowd.':
+    '按中位数切分，方阵、圆阵、锥形阵、散阵都能分得均匀。',
+  'Optick profiler capture of the squad hull update on the AI thread, broken down into near-point queries':
+    'Optick 截图：AI 线程上的小队凸包更新，展开到邻近点查询',
+  'Optick capture from the A/B runs: the hull update on the AI thread with a 2,000-soldier squad.':
+    'A/B 测试时的 Optick 截图：2,000 人小队在 AI 线程上的凸包更新。',
+  'Debug lines linking soldiers in a squad to the neighbors the radius query found':
+    '调试连线：把小队里每个士兵和半径查询找到的邻居连起来',
+  'Debug draw of the neighbor links found by the radius query.':
+    '半径查询找到的邻居连线（调试绘制）。',
+  'Hull outlines drawn around the connected groups of a moving archer squad':
+    '行进中的弓兵小队，各个连通分量外画出的凸包轮廓',
+  'Hulls built from the connected groups of a moving squad.':
+    '行进中的小队，按连通分量生成的凸包。',
+  'Cut squad connectivity time by about 85% at 2,000 soldiers by replacing an O(n²) pairwise search with a templated KD-tree (median splits via a custom quickselect) and union-find merging during the query.':
+    '把 O(n²) 的两两距离比较换成模板 KD 树（自己写快速选择取中位数切分）加查询时并查集合并，2,000 人小队的连通性计算耗时降低约 85%。',
+  '~85% less connectivity time at 2,000 soldiers with a templated KD-tree':
+    '模板 KD 树：2,000 人小队连通性计算耗时降低约 85%',
   'KD-tree': 'KD 树',
   'Union-find': '并查集',
-  Profiling: '性能分析',
-  'Unit grouping needs connected components of soldiers within a distance threshold, rebuilt in real time for selection, formations and pathfinding.':
-    '单位分组要找出一定距离内士兵的连通分量，而且要实时重建，供选兵、阵型和寻路使用。',
-  'For the typical 2,000-unit workload I replaced the naive search with spatial hashing on a uniform grid, cutting connectivity computation by 85%. A templated k-dimensional KD-tree (with union-find and DBSCAN) is kept for 5,000–6,000-unit scenes, where it pays off. Both paths are instrumented with stat counters.':
-    '针对常见的 2,000 单位规模，我把暴力搜索换成了均匀网格空间哈希，连通性计算量降低 85%。另外保留了一套模板化的 k 维 KD 树（配合并查集和 DBSCAN），专门给 5,000–6,000 单位的场景用，那种规模下它更划算。两条路径都加了 stat 统计。',
-  'Connected components computed over unit clusters': '对单位集群计算连通分量',
   'Command relay routing': '军令传递路由',
   'Beacon towers on hills linked into a network; a blue signal hops along the shortest chain from a command tent to distant soldiers':
     '山上的烽火台连成网络，蓝色信号沿最短路径从指挥帐篷一站站传到远处的士兵',
